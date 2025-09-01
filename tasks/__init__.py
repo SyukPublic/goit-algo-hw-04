@@ -3,6 +3,6 @@
 __title__ = 'Home Work for Module 3, 4'
 __author__ = 'Roman'
 
-from tasks.task_02 import draw_koch_snowflake
+from tasks.task_02 import cli as task_02_cli
 
-__all__ = ['draw_koch_snowflake']
+__all__ = ['task_02_cli']

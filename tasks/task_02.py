@@ -4,6 +4,7 @@
 HomeWork Task 2
 """
 
+import argparse
 import turtle
 
 
@@ -45,3 +46,18 @@ def draw_koch_snowflake(depth: int, size: float = 300) -> None:
         t.right(120)
 
     window.mainloop()
+
+
+def cli() -> None:
+    try:
+        parser = argparse.ArgumentParser(description="Draw the Koch snowflake", epilog="Good bye!")
+        # parser.add_argument("depth", type=int, help="Recursion depth (default 3)")
+        parser.add_argument("-d", "--depth", type=int, default=3, help="Recursion depth (default 3)")
+
+        args = parser.parse_args()
+
+        draw_koch_snowflake(args.depth)
+    except Exception as e:
+        print(e)
+
+    exit(0)
