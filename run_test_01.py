@@ -4,4 +4,8 @@
 Tests for Task 1
 """
 
-import argparse
+from tasks import task_01_cli
+
+
+if __name__ == "__main__":
+    task_01_cli()

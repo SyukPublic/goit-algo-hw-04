@@ -9,8 +9,7 @@ import turtle
 
 
 def koch_curve(t: turtle.Turtle, level: int, size: float) -> None:
-    """
-    Draw the Koch curve
+    """Draw the Koch curve
 
     :param t: Turtle screen
     :param level: Recursion level
@@ -25,8 +24,7 @@ def koch_curve(t: turtle.Turtle, level: int, size: float) -> None:
 
 
 def draw_koch_snowflake(depth: int, size: float = 300) -> None:
-    """
-    Draw the Koch snowflake
+    """Draw the Koch snowflake
 
     :param depth: Recursion depth
     :param size: Size of curve
