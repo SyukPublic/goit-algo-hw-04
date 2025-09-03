@@ -33,7 +33,7 @@ def merge_sort(dataset: list[int]) -> list[int]:
     :return: sorted list of integers (list of integers)
     """
 
-    def merge(left: list[int], right: list[int]):
+    def merge(left: list[int], right: list[int]) -> list[int]:
         merged: list[int] = []
         left_index = 0
         right_index = 0
@@ -57,7 +57,7 @@ def merge_sort(dataset: list[int]) -> list[int]:
         return merged
 
     if len(dataset) <= 1:
-        return dataset
+        return dataset[:]
 
     mid = len(dataset) // 2
     return merge(merge_sort(dataset[:mid]), merge_sort(dataset[mid:]))
@@ -98,13 +98,6 @@ def timsort_by_sort(dataset: list[int]) -> list[int]:
 
 def sort_algorithms_compare() -> None:
 
-    datasets: tuple = (
-        ("List of 1 000 integers", np.random.randint(1, 1001, size=1_000).tolist(), ),
-        ("List of 10 000 integers", np.random.randint(1, 1001, size=10_000).tolist(), ),
-        ("List of 100 000 integers", np.random.randint(1, 1001, size=100_000).tolist(), ),
-        ("List of 1 000 000 integers", np.random.randint(1, 1001, size=1_000_000).tolist(), ),
-    )
-
     algorithms: tuple = (
         ("Insertion sort", insertion_sort),
         ("Merge sort", merge_sort),
@@ -113,6 +106,11 @@ def sort_algorithms_compare() -> None:
         ("Timsort by list.sort()", timsort_by_sort),
     )
 
+    datasets: list[tuple[str, list[int]]] = [
+        (f"List of {size:,} integers", np.random.randint(1, 1001, size=size).tolist(), )
+        for size in sorted([100, 1_000, 10_000, 100_000])
+    ]
+
     sort_times: dict[str, dict[str, float]] = {}
     for algorith_name, sort_func in algorithms:
         times: dict[str, float] = {}
@@ -120,23 +118,13 @@ def sort_algorithms_compare() -> None:
             times[name] = timeit.timeit(lambda: sort_func(dataset), number=5)
         sort_times[algorith_name] = times
 
-    datasets_max_name_length = max([len(n) for n, _ in datasets])
-    algorithms_max_name_length = max([len(n) for n in sort_times.keys()])
-    print(
-        "| ",
-        " | ".join(
-            [f"{'Algorithm':<{algorithms_max_name_length}}"]
-            +
-            [f"{n:<{datasets_max_name_length}}" for n, _ in datasets]
-        )
-    )
-    print("| ", " | ".join(["-"*algorithms_max_name_length] + ["-"*datasets_max_name_length for _ in datasets]))
-    for func_name, times in sort_times.items():
+    data_max_len = max([len(n) for n, _ in datasets])
+    algo_max_len = max([len(n) for n in sort_times.keys()])
+    print("|", " | ".join([f"{'Algorithm':<{algo_max_len}}"] + [f"{n:<{data_max_len}}" for n, _ in datasets]), "|")
+    print("|", " | ".join(["-"*algo_max_len] + ["-"*data_max_len for _ in datasets]), "|")
+    for func, times in sort_times.items():
         print(
-            "| ",
-            " | ".join(
-                [f"{func_name:<{algorithms_max_name_length}}"]
-                +
-                [f"{times.get(n, 0):<{datasets_max_name_length}.08f}" for n, _ in datasets]
-            )
+            "|",
+            " | ".join([f"{func:<{algo_max_len}}"] + [f"{times.get(n, 0):<{data_max_len}.08f}" for n, _ in datasets]),
+            "|"
         )
